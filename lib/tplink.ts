@@ -31,6 +31,7 @@ import hs300 from "./hs300";
 import lb100 from "./lb100";
 import lb120 from "./lb120";
 import lb130 from "./lb130";
+import kc120 from "./kc120";
 import axiosCurlirize from 'axios-curlirize';
 
 if( process.env.CURLIRIZE ) {
@@ -182,6 +183,11 @@ export default class TPLink {
         return new hs200(this, deviceInfo);
       }
     }
+
+    if (type.includes("camera")) {
+      return new kc120(this, deviceInfo);
+    }
+
     return new device(this, deviceInfo);
   }
 
@@ -255,5 +261,10 @@ export default class TPLink {
   }
   getKL130(alias) {
     return this.getLB130(alias);
+  }
+
+  // for an KC120 IPCamera
+  getKC120(alias) {
+    return new kc120(this, this.findDevice(alias));
   }
 }
